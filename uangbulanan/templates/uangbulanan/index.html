@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{%block title %}Manajemen Uang Bulanan{% endblock %}
+
+{%block body%}
+<!-- CONTAINER CONTENT -->
+<div class="container">
+    <div class="jumbotron">
+        <h3>List Pembelian Bulan Ini ({% now "F - Y" %})</h3>
+        <table id="tabel_barang" class="table table-striped table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Tanggal Beli</th>
+                    <th>Barang</th>
+                    <th>Harga Barang</th>
+                    <th>Tempat Beli</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for barang in barang_list %}
+                    <tr>
+                        <td>{{ barang.tanggal_beli_barang }}</td>
+                        <td>{{ barang.nama_barang }}</td>
+                        <td>{{ barang.harga_barang }}</td>
+                        <td>{{ barang.tempat_beli_barang }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block custom_scripts %}
+<script>
+    $(document).ready( ()=> {
+        $("#tabel_barang").DataTable();
+        $("#li-dash").addClass("active"); // set interface liactive
+    })
+</script>
+{% endblock %}

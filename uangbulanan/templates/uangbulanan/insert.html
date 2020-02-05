@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block custom_header %}
+{% endblock %}
+
+{%block title %}Manajemen Uang Bulanan{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="jumbotron">
+        <h3>Insert Barang</h3>
+        <form action="#" method="post">
+            
+            <!-- INPUT NAMA_BARANG -->
+            <div class="form-group row">
+                <label for="namabarang" class="col-form-label col-sm-2 text-right">Nama Barang :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="namabarang" id="namabarang" class="form-control" list="list_barang">
+                    <datalist id="list_barang">
+                        
+                    </datalist>
+                </div>
+            </div>
+
+            <!-- INPUT DESKRIPSI BARANG -->
+            <div class="form-group row">
+                <label for="deskripsibarang" class="col-form-label col-sm-2 text-right">Deskripsi Barang :</label>
+                <div class="col-sm-10">
+                    <textarea name="deskripsibarang" id="deskripsibarang" rows="3" class="form-control"></textarea>
+                </div>
+            </div>
+            
+            <!-- INPUT HARGA BARANG -->
+            <div class="form-group row">
+                <label for="hargabarang" class="col-form-label col-sm-2 text-right">Harga Barang :</label>
+                
+                <div class="input-group col-sm-10">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Rp.</div>
+                    </div>
+                    <input type="number" name="hargabarang" id="hargabarang" onchange="hitung_subtotal()" class="form-control col-sm-4" min="0" value="0">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"> &times; </div>
+                    </div>
+                    <input type="number" name="qtybarang" id="qtybarang" onchange="hitung_subtotal()" class="form-control col-sm-1" min="1" value="1">
+                    <div class="input-group-prepend">
+                       <div class="input-group-text">=</div> 
+                    </div>
+                    <input type="text" name="subtotal" id="subtotal" readonly class="form-control disabled" value="Rp. 0">
+                </div>
+            </div>
+
+            <!-- INPUT TEMPAT BELI + TANGGAL BELI -->
+            <div class="form-group row">
+                <label for="tempatbelibarang" class="col-form-label col-sm-2 text-right">Tempat Beli :</label>
+                <div class="input-group col-sm-10">
+                    <input type="text" name="tempatbelibarang" id="tempatbelibarang" class="form-control">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Tanggal :</div>
+                    </div>
+                    <input type="datetime-local" name="dtbelibarang" id="dtbelibarang" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="" class="col-form-label col-sm-2 text-right">Pembeli Barang :</label>
+                <div class="input-group col-sm-10">
+                    <input type="text" name="pembelibarang" id="pembelibarang" list="listpembeli" class="form-control">
+                    <datalist id="listpembeli">
+                        <option value="option1">option1</option>
+                    </datalist>
+                </div>
+            </div>
+            
+            <input type="submit" value="Insert" class="btn btn-success">
+            {% csrf_token %}
+        </form>
+        <p id="real-time">{% now "l, d-F-Y fA" %}</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block custom_scripts %}
+<script>
+$(document).ready(() =>
+{
+    $("#li-ins").addClass("active");
+});
+
+const hitung_subtotal = () =>
+{
+    //hitung subtotal
+    let harga = $("#hargabarang").val();
+    let qty = $("#qtybarang").val();
+    $("#subtotal").val(`Rp. ${harga * qty}`);
+}
+
+</script>
+{% endblock %}
